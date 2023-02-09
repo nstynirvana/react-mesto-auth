@@ -1,0 +1,6 @@
+.authorize__container {
+    margin: 15px auto 0;
+    display: flex;
+    justify-content: center;
+    max-width: 260px;
+  }

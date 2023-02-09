@@ -14,7 +14,6 @@ import Register from './Register';
 import InfoToolTip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
 import auth from '../utils/auth';
-import { useScrollLock } from '../hooks/useScrollLock'
 
 function App() {
 
