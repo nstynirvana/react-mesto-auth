@@ -8,6 +8,13 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import Login from './Login';
+import Register from './Register';
+import InfoToolTip from './InfoTooltip';
+import ProtectedRoute from './ProtectedRoute';
+import auth from '../utils/auth';
+import {useScrollLock} from '../hooks/useScrollLock'
 
 function App() {
 
@@ -98,7 +105,7 @@ function App() {
     };
 
     const handleUpdateAvatar = ({ avatar, clearAvatar }) => {
-        api.editUserAvatar({avatar})
+        api.editUserAvatar({ avatar })
             .then(() => {
                 setCurrentUser({ ...currentUser, avatar: avatar });
                 closeAllPopups();
@@ -107,18 +114,18 @@ function App() {
             .catch((err) => {
                 console.error(err);
             });
-            
+
     };
 
     function handleAddPlaceSubmit(card) {
         console.log(card)
         api.addNewCard(card)
-        .then((newCard) => {
-          setCards([newCard, ...cards]);
-          closeAllPopups();
-        })
-        .catch(err => console.log(err))
-      }
+            .then((newCard) => {
+                setCards([newCard, ...cards]);
+                closeAllPopups();
+            })
+            .catch(err => console.log(err))
+    }
 
     function closeAllPopups() {
         setIsEditAvatarPopupOpen(false)
@@ -127,6 +134,39 @@ function App() {
         setSelectedCard(false);
     }
 
+    const handleRegisterSubmit = (email, password) => {
+        auth.register(email, password)
+        .then((res) => {
+          if(res) {
+            handleInfoTooltipClick(); //открытие модального окна
+            setSuccess(true); //сообщение об успешной регистраци
+            history.push('/sign-in');
+          } else {
+            handleInfoTooltipClick(); //открытие модального окна
+            setSuccess(false); //сообщение о проблеме при регистраци
+          }
+        })
+        .catch((err) => console.log(err));
+      };
+
+      function handleLoginSubmit (email, password) {
+        auth.authorize(email, password)
+          .then((data) => {
+            if(data.token) {
+              handleUserEmail(email); //сохранили эл. почту пользователя в стейт
+              localStorage.setItem('token', data.token);//сохранили токен
+              handleLogin();//статус пользователя - зарегистрирован
+              history.push('/'); //переадресация на основную страницу
+            } else {
+              return
+            }
+          })
+          .catch(() => {
+            handleInfoTooltipClick(); //открытие модального окна с ошибкой
+            setSuccess(false);
+          })
+      }
+
     return (
 
         <div className="page">
@@ -134,6 +174,17 @@ function App() {
             <CurrentUserContext.Provider value={currentUser}>
 
                 <Header />
+
+                <Switch>
+                    <Route path='/sign-up'>
+                        <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />
+                    </Route>
+
+                    <Route path='/sign-in'>
+                        <Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit} />
+                    </Route>
+                </Switch>
+
 
                 <Main
                     onEditAvatar={handleEditAvatarClick}
@@ -149,9 +200,9 @@ function App() {
 
                 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
-                <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}  onAddPlace={handleAddPlaceSubmit}/>
+                <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
 
-                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
                 <ImagePopup
                     card={selectedCard}
