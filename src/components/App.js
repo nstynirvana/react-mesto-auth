@@ -8,13 +8,13 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import InfoToolTip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
 import auth from '../utils/auth';
-import {useScrollLock} from '../hooks/useScrollLock'
+import { useScrollLock } from '../hooks/useScrollLock'
 
 function App() {
 
@@ -29,6 +29,14 @@ function App() {
     const [cards, setCards] = React.useState([]);
 
     const [currentUser, setCurrentUser] = React.useState({});
+
+    const [email, setEmail] = React.useState('');
+
+    const [isLoggedIn, setLoggedIn] = React.useState(false);
+
+    const [isInfoToolTipOpen, setInfoToolTipOpen] = React.useState(false);
+
+    const [isSuccess, setSuccess] = React.useState(false); 
 
     React.useEffect(() => {
         api.getAllCards()
@@ -93,6 +101,18 @@ function App() {
         setSelectedCard(card);
     }
 
+    function handleUserEmail(email) {
+        setEmail(email)
+    }
+
+    function handleLogin() {
+        setLoggedIn(true)
+    }
+
+    function handleInfoTooltipClick() {
+        setInfoToolTipOpen(true);
+    }
+
     const handleUpdateUser = (info) => {
         api.editUserInfo(info)
             .then((userData) => {
@@ -128,6 +148,7 @@ function App() {
     }
 
     function closeAllPopups() {
+        setInfoToolTipOpen(false)
         setIsEditAvatarPopupOpen(false)
         setIsEditProfilePopupOpen(false)
         setIsAddPlacePopupOpen(false)
@@ -136,36 +157,36 @@ function App() {
 
     const handleRegisterSubmit = (email, password) => {
         auth.register(email, password)
-        .then((res) => {
-          if(res) {
-            handleInfoTooltipClick(); //открытие модального окна
-            setSuccess(true); //сообщение об успешной регистраци
-            history.push('/sign-in');
-          } else {
-            handleInfoTooltipClick(); //открытие модального окна
-            setSuccess(false); //сообщение о проблеме при регистраци
-          }
-        })
-        .catch((err) => console.log(err));
-      };
+            .then((res) => {
+                if (res) {
+                    handleInfoTooltipClick(); //открытие модального окна
+                    setSuccess(true); //сообщение об успешной регистраци
+                    useHistory.push('/sign-in');
+                } else {
+                    handleInfoTooltipClick(); //открытие модального окна
+                    setSuccess(false); //сообщение о проблеме при регистраци
+                }
+            })
+            .catch((err) => console.log(err));
+    };
 
-      function handleLoginSubmit (email, password) {
+    function handleLoginSubmit(email, password) {
         auth.authorize(email, password)
-          .then((data) => {
-            if(data.token) {
-              handleUserEmail(email); //сохранили эл. почту пользователя в стейт
-              localStorage.setItem('token', data.token);//сохранили токен
-              handleLogin();//статус пользователя - зарегистрирован
-              history.push('/'); //переадресация на основную страницу
-            } else {
-              return
-            }
-          })
-          .catch(() => {
-            handleInfoTooltipClick(); //открытие модального окна с ошибкой
-            setSuccess(false);
-          })
-      }
+            .then((data) => {
+                if (data.token) {
+                    handleUserEmail(email); //сохранили эл. почту пользователя в стейт
+                    localStorage.setItem('token', data.token);//сохранили токен
+                    handleLogin();//статус пользователя - зарегистрирован
+                    useHistory.push('/'); //переадресация на основную страницу
+                } else {
+                    return
+                }
+            })
+            .catch(() => {
+                handleInfoTooltipClick(); //открытие модального окна с ошибкой
+                setSuccess(false);
+            })
+    }
 
     return (
 
@@ -173,7 +194,10 @@ function App() {
 
             <CurrentUserContext.Provider value={currentUser}>
 
-                <Header />
+                <Header 
+                useremail={email}
+                isLoggedIn={isLoggedIn}
+                closeAllPopups={closeAllPopups} />
 
                 <Switch>
                     <Route path='/sign-up'>
