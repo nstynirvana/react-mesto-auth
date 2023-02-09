@@ -1,0 +1,14 @@
+.profile__person {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 1040px) {
+  .profile__person {
+    margin: 0 auto;
+  }
+}

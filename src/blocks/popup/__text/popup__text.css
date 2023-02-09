@@ -1,0 +1,19 @@
+.popup__text {
+    width: 100%;
+    font-family: 'Inter', "Arial", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    border: 0;
+    border-bottom: 1px solid #d1d1d7;
+    font-size: 14px;
+    line-height: 17px;
+    box-sizing: border-box;
+    padding: 0 0 13px;
+    margin-bottom: 5px;
+}
+
+
+/*.popup__text:focus:invalid {*/
+/*    border-bottom: 1px solid red;*/
+/*}*/
+

@@ -1,0 +1,26 @@
+.error {
+    display:block;
+    color: red;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 15px;
+    margin-bottom: 13px;
+    max-width: 358px;
+    min-height: 30px;
+}
+
+.error:last-of-type {
+    margin-bottom: 30px;
+}
+
+@media (max-width:590px) {
+    .error:last-of-type {
+        margin-bottom: 30px;
+    }
+
+    .error {
+        max-width: 238px;
+        min-height: 45px;
+    }
+}
