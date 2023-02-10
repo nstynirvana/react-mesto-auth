@@ -29,13 +29,11 @@ function App() {
 
     const [currentUser, setCurrentUser] = React.useState({});
 
-    const [email, setEmail] = React.useState('');
-
     const [isLoggedIn, setLoggedIn] = React.useState(false);
 
     const [isInfoToolTipOpen, setInfoToolTipOpen] = React.useState(false);
 
-    const [isSuccess, setSuccess] = React.useState(false); 
+    const [isSuccess, setSuccess] = React.useState(false);
 
     React.useEffect(() => {
         api.getAllCards()
@@ -98,10 +96,6 @@ function App() {
 
     const handleCardClick = (card) => {
         setSelectedCard(card);
-    }
-
-    function handleUserEmail(email) {
-        setEmail(email)
     }
 
     function handleLogin() {
@@ -193,10 +187,10 @@ function App() {
 
             <CurrentUserContext.Provider value={currentUser}>
 
-                <Header 
-                useremail={email}
-                isLoggedIn={isLoggedIn}
-                closeAllPopups={closeAllPopups} />
+                <Header
+                    useremail={email}
+                    isLoggedIn={isLoggedIn}
+                    closeAllPopups={closeAllPopups} />
 
                 <Switch>
                     <Route path='/sign-up'>
@@ -231,14 +225,6 @@ function App() {
                     card={selectedCard}
                     onClose={closeAllPopups}
                 />
-
-                <div className="popup popup_delete">
-                    <div className="popup__content">
-                        <button aria-label="Закрыть" id="editBtnDelete" type="button" className="popup__close-button popup__close-button_edit"></button>
-                        <h2 className="popup__heading">Вы уверены?</h2>
-                        <button aria-label="Сохранить" id="consent" className="popup__submit-button">Да</button>
-                    </div>
-                </div>
 
             </CurrentUserContext.Provider>
 

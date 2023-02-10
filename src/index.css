@@ -36,6 +36,7 @@
 @import url(./blocks/popup/__heading/popup__heading.css);
 @import url(./blocks/popup/__text/popup__text.css);
 @import url(./blocks/popup/__submit-button/popup__submit-button.css);
+@import url(./blocks/popup/__result/popup__result.css);
 
 
 @import url(./blocks/element/__like-button/_active/element__like-button_active.css);
@@ -50,10 +51,28 @@
 
 @import url(./blocks/popup-visual/__text/popup-visual__text.css);
 
-@import url(./blocks/form/form.css);
 @import url(./blocks/error/error.css);
 @import url(./blocks/popup/__text/_invalid/popup__text_invalid.css);
 @import url(./blocks/popup/__submit-button/_invalid/popup__submit-button_invalid.css);
 @import url(./blocks/popup/_open-image/popup_open-image.css);
 
 @import url(./blocks/common/hidden.css);
+
+@import url(./blocks/form/form.css);
+@import url(./blocks/form/_color/form_color_white.css);
+@import url(./blocks/form/__title/form__title.css);
+@import url(./blocks/form/__title/_place/form__title_place_delete.css);
+@import url(./blocks/form/__title/_place/form__title_place_sign-in.css);
+@import url(./blocks/form/__items/form_items.css);
+@import url(./blocks/form/__items/_color/form__items_color_white.css);
+@import url(./blocks/form/__item/form__item.css);
+@import url(./blocks/form/__item/_color/form__item_color_white.css);
+@import url(./blocks/form/__item/_state/form__item_state_invalid.css);
+@import url(./blocks/form/__button/form__button.css);
+@import url(./blocks/form/__button/_color/form__button_color_white.css);
+/* там еще папки */
+
+@import url(./blocks/authorize/authorize.css);
+@import url(./blocks/authorize/__container/authorize__container.css);
+@import url(./blocks/authorize/__link/authorize__link.css);
+@import url(./blocks/authorize/__text/authorize__text.css);
