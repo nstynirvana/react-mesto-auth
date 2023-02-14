@@ -8,12 +8,13 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import InfoToolTip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
 import auth from '../utils/auth';
+import AuthorizeForm from './AuthorizeForm';
 
 function App() {
 
@@ -34,6 +35,8 @@ function App() {
     const [isInfoToolTipOpen, setInfoToolTipOpen] = React.useState(false);
 
     const [isSuccess, setSuccess] = React.useState(false);
+
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         api.getAllCards()
@@ -154,7 +157,7 @@ function App() {
                 if (res) {
                     handleInfoTooltipClick(); //открытие модального окна
                     setSuccess(true); //сообщение об успешной регистраци
-                    useHistory.push('/sign-in');
+                    navigate.push('/sign-in');
                 } else {
                     handleInfoTooltipClick(); //открытие модального окна
                     setSuccess(false); //сообщение о проблеме при регистраци
@@ -170,7 +173,7 @@ function App() {
                     handleUserEmail(email); //сохранили эл. почту пользователя в стейт
                     localStorage.setItem('token', data.token);//сохранили токен
                     handleLogin();//статус пользователя - зарегистрирован
-                    useHistory.push('/'); //переадресация на основную страницу
+                    navigate.push('/'); //переадресация на основную страницу
                 } else {
                     return
                 }
@@ -179,6 +182,20 @@ function App() {
                 handleInfoTooltipClick(); //открытие модального окна с ошибкой
                 setSuccess(false);
             })
+    }
+
+    function tokenCheck() {
+        const token = localStorage.getItem('token'); //сохранили токен
+        if (token) {
+            auth.getContent(token)
+                .then((data) => data)
+                .then((res) => {
+                    handleUserEmail(res.data.email); //обновили стейт эл. почты пользователя
+                    handleLogin(); //обновлен статус пользователя - зарегистрирован
+                    navigate.push('/'); //переадресация на страницу пользователя
+                })
+                .catch(err => console.log(err))
+        }
     }
 
     return (
@@ -192,7 +209,7 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     closeAllPopups={closeAllPopups} />
 
-                <Switch>
+                <Routes>
                     <Route path='/sign-up'>
                         <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />
                     </Route>
@@ -200,20 +217,30 @@ function App() {
                     <Route path='/sign-in'>
                         <Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit} />
                     </Route>
-                </Switch>
+                </Routes>
 
-
-                <Main
-                    onEditAvatar={handleEditAvatarClick}
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onCardClick={handleCardClick}
-                    cards={cards}
-                    onCardLike={handleCardLike}
-                    onBtnDelete={handleCardDelete}
+                <ProtectedRoute
+                    exact path='/'
+                    isLoggedIn={isLoggedIn}
+                    element={() =>
+                        <Main
+                            onEditAvatar={handleEditAvatarClick}
+                            onEditProfile={handleEditProfileClick}
+                            onAddPlace={handleAddPlaceClick}
+                            onCardClick={handleCardClick}
+                            cards={cards}
+                            onCardLike={handleCardLike}
+                            onBtnDelete={handleCardDelete}
+                        />}
                 />
 
-                <Footer />
+                <ProtectedRoute
+                    exact path='/'
+                    isLoggedIn={isLoggedIn}
+                    element={<Footer />}
+                />
+
+                <InfoToolTip isOpen={isInfoToolTipOpen} onClose={closeAllPopups} isSuccess={isSuccess} />
 
                 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
@@ -221,10 +248,7 @@ function App() {
 
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
-                <ImagePopup
-                    card={selectedCard}
-                    onClose={closeAllPopups}
-                />
+                <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
             </CurrentUserContext.Provider>
 
