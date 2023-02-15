@@ -20,7 +20,7 @@ class Api {
         return fetch(`${this._url}/signup`, {
             method: "POST",
             headers: this._headers,
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email: email, password: password })
         })
             .then(this._checkResponse)
     };
