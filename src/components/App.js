@@ -14,7 +14,6 @@ import Register from './Register';
 import InfoToolTip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
 import auth from '../utils/auth';
-import AuthorizeForm from './AuthorizeForm';
 
 function App() {
 
@@ -36,7 +35,7 @@ function App() {
 
     const [isSuccess, setSuccess] = React.useState(false);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         api.getAllCards()
@@ -157,7 +156,7 @@ function App() {
                 if (res) {
                     handleInfoTooltipClick(); //открытие модального окна
                     setSuccess(true); //сообщение об успешной регистраци
-                    navigate.push('/sign-in');
+                    navigate('/sign-in');
                 } else {
                     handleInfoTooltipClick(); //открытие модального окна
                     setSuccess(false); //сообщение о проблеме при регистраци
@@ -170,10 +169,9 @@ function App() {
         auth.authorize(email, password)
             .then((data) => {
                 if (data.token) {
-                    handleUserEmail(email); //сохранили эл. почту пользователя в стейт
                     localStorage.setItem('token', data.token);//сохранили токен
                     handleLogin();//статус пользователя - зарегистрирован
-                    navigate.push('/'); //переадресация на основную страницу
+                    navigate('/'); //переадресация на основную страницу
                 } else {
                     return
                 }
@@ -190,9 +188,8 @@ function App() {
             auth.getContent(token)
                 .then((data) => data)
                 .then((res) => {
-                    handleUserEmail(res.data.email); //обновили стейт эл. почты пользователя
                     handleLogin(); //обновлен статус пользователя - зарегистрирован
-                    navigate.push('/'); //переадресация на страницу пользователя
+                    navigate('/'); //переадресация на страницу пользователя
                 })
                 .catch(err => console.log(err))
         }
@@ -205,21 +202,20 @@ function App() {
             <CurrentUserContext.Provider value={currentUser}>
 
                 <Header
-                    useremail={email}
                     isLoggedIn={isLoggedIn}
                     closeAllPopups={closeAllPopups} />
 
                 <Routes>
-                    <Route path='/sign-up'>
-                        <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />
+                    <Route path='/sign-up'
+                    element={
+                    <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />}>   
                     </Route>
 
-                    <Route path='/sign-in'>
-                        <Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit} />
+                    <Route path='/sign-in'
+                    element={<Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit}/>}>  
                     </Route>
-                </Routes>
-
-                <ProtectedRoute
+                    
+                    <Route element={ <ProtectedRoute
                     exact path='/'
                     isLoggedIn={isLoggedIn}
                     element={() =>
@@ -232,13 +228,11 @@ function App() {
                             onCardLike={handleCardLike}
                             onBtnDelete={handleCardDelete}
                         />}
-                />
-
-                <ProtectedRoute
-                    exact path='/'
-                    isLoggedIn={isLoggedIn}
-                    element={<Footer />}
-                />
+                />}>
+                    </Route>
+                </Routes>
+                
+                <Footer />
 
                 <InfoToolTip isOpen={isInfoToolTipOpen} onClose={closeAllPopups} isSuccess={isSuccess} />
 

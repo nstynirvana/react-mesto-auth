@@ -24,6 +24,7 @@ React.useEffect(() => {
 
 const handleSubmit = (e) => {
     e.preventDefault();
+    props.handleFormSubmit(email, password)
 }
   
   return (
