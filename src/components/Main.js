@@ -54,6 +54,5 @@ function Main(props) {
       </section>
     </main>
   );
-}
-ª;
+};
 export default Main;

@@ -13,6 +13,7 @@ import Login from "./Login";
 import Register from "./Register";
 import InfoToolTip from "./InfoTooltip";
 import auth from "../utils/auth";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const [email, setEmail] = React.useState("");
@@ -245,22 +246,19 @@ function App() {
 
         <Routes>
           <Route
-            exact
-            path="/"
+            path="/*"
             element={
-              isLoggedIn ? (
-                <Main
-                  onEditAvatar={handleEditAvatarClick}
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onCardClick={handleCardClick}
-                  cards={cards}
-                  onCardLike={handleCardLike}
-                  onBtnDelete={handleCardDelete}
-                />
-              ) : (
-                <Navigate to="/sign-in" />
-              )
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={Main}
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onBtnDelete={handleCardDelete}
+              />
             }
           ></Route>
 
