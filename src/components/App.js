@@ -8,7 +8,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate} from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import InfoToolTip from './InfoTooltip';
@@ -221,48 +221,50 @@ function App() {
                     useremail={email}
                     isLoggedIn={isLoggedIn}
                     closeAllPopups={closeAllPopups}
-                    isMenuLogged={isMenuLogged} 
+                    isMenuLogged={isMenuLogged}
                     handleMenuClick={handleMenuClick} />
 
                 <Routes>
-                    <Route path='/'
+                    <Route exact path='/'
                         element={
-                            <ProtectedRoute
-                                isLoggedIn={isLoggedIn}
-                                element={Main}
-                                onEditAvatar={handleEditAvatarClick}
-                                onEditProfile={handleEditProfileClick}
-                                onAddPlace={handleAddPlaceClick}
-                                onCardClick={handleCardClick}
-                                cards={cards}
-                                onCardLike={handleCardLike}
-                                onBtnDelete={handleCardDelete}
-                            />}>
-                    </Route>
+                            isLoggedIn ? (
+                        <Main 
+                         onEditAvatar={handleEditAvatarClick}
+                            onEditProfile={handleEditProfileClick}
+                            onAddPlace={handleAddPlaceClick}
+                            onCardClick={handleCardClick}
+                            cards={cards}
+                            onCardLike={handleCardLike}
+                            onBtnDelete={handleCardDelete}
+                        />
+                        ) : (
+                            <Navigate to='/sign-in' />
+                        )}
+                    ></Route>
 
-                    <Route path='/sign-up'
-                        element={
-                            <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />}>
-                    </Route>
+                <Route path='/sign-up'
+                    element={
+                        <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />}>
+                </Route>
 
-                    <Route path='/sign-in'
-                        element={<Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit} />}>
-                    </Route>
-                </Routes>
+                <Route path='/sign-in'
+                    element={<Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit} />}>
+                </Route>
+            </Routes>
 
-                <Footer />
+            <Footer />
 
-                <InfoToolTip isOpen={isInfoToolTipOpen} onClose={closeAllPopups} isSuccess={isSuccess} />
+            <InfoToolTip isOpen={isInfoToolTipOpen} onClose={closeAllPopups} isSuccess={isSuccess} />
 
-                <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+            <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
-                <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+            <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
 
-                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
-                <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-            </CurrentUserContext.Provider>
+        </CurrentUserContext.Provider>
 
         </div >
     );
