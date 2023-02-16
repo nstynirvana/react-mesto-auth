@@ -225,15 +225,6 @@ function App() {
                     handleMenuClick={handleMenuClick} />
 
                 <Routes>
-                    <Route path='/sign-up'
-                        element={
-                            <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />}>
-                    </Route>
-
-                    <Route path='/sign-in'
-                        element={<Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit} />}>
-                    </Route>
-
                     <Route path='/'
                         element={
                             <ProtectedRoute
@@ -249,6 +240,14 @@ function App() {
                             />}>
                     </Route>
 
+                    <Route path='/sign-up'
+                        element={
+                            <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />}>
+                    </Route>
+
+                    <Route path='/sign-in'
+                        element={<Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit} />}>
+                    </Route>
                 </Routes>
 
                 <Footer />
