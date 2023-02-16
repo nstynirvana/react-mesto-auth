@@ -1,0 +1,5 @@
+ .button__menu_right {
+    transform: translate(-3px, -21px) rotate(-45deg);
+    transform-origin: right bottom;
+    width: 24px;
+  }

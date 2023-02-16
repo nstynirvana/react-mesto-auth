@@ -17,6 +17,8 @@ import auth from '../utils/auth';
 
 function App() {
 
+    const [email, setEmail] = React.useState('');
+
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -34,6 +36,8 @@ function App() {
     const [isInfoToolTipOpen, setInfoToolTipOpen] = React.useState(false);
 
     const [isSuccess, setSuccess] = React.useState(false);
+
+    const [isMenuLogged, setMenuLogged] = React.useState(false);
 
     const navigate = useNavigate();
 
@@ -100,6 +104,10 @@ function App() {
         setSelectedCard(card);
     }
 
+    function handleMenuClick() {
+        setMenuLogged(!isMenuLogged)
+    }
+
     function handleLogin() {
         setLoggedIn(true)
     }
@@ -148,6 +156,7 @@ function App() {
         setIsEditProfilePopupOpen(false)
         setIsAddPlacePopupOpen(false)
         setSelectedCard(false);
+        setMenuLogged(false)
     }
 
     const handleRegisterSubmit = (email, password) => {
@@ -195,6 +204,12 @@ function App() {
         }
     }
 
+    function signOutProfile() {
+        localStorage.removeItem('token'); //удалили токен
+        setLoggedIn(false); // обновили статус пользователя
+        navigate('/sign-in');//переадресация на странцицу входа
+    }
+
     return (
 
         <div className="page">
@@ -202,8 +217,12 @@ function App() {
             <CurrentUserContext.Provider value={currentUser}>
 
                 <Header
+                    signOutProfile={signOutProfile}
+                    useremail={email}
                     isLoggedIn={isLoggedIn}
-                    closeAllPopups={closeAllPopups} />
+                    closeAllPopups={closeAllPopups}
+                    isMenuLogged={isMenuLogged} 
+                    handleMenuClick={handleMenuClick} />
 
                 <Routes>
                     <Route path='/sign-up'
@@ -229,7 +248,7 @@ function App() {
                                 onBtnDelete={handleCardDelete}
                             />}>
                     </Route>
-                    
+
                 </Routes>
 
                 <Footer />

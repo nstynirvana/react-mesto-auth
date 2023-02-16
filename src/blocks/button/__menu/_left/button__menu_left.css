@@ -1,0 +1,5 @@
+ .button__menu_left {
+    transform: translate(5px, 1px) rotate(45deg);
+    transform-origin: left top;
+    width: 24px;
+  }

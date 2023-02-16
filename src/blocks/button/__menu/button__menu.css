@@ -1,0 +1,7 @@
+ .button__menu {
+    display: block;
+    font-size: 0;
+    width: 24px;
+    height: 3px;
+    background-color: #fff;
+  }

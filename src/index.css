@@ -11,6 +11,12 @@
 @import url(./blocks/popup/popup.css);
 
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__user/header__user.css);
+@import url(./blocks/header/__link-push/header__link-push.css);
+@import url(./blocks/header/__link-push/_color/header__link-push_color_grey.css);
+@import url(./blocks/header/__container/header__container.css);
+@import url(./blocks/header/__container/_type/header__container_type_menu.css);
+@import url(./blocks/header/__container/_type/header__container_type_profile.css);
 
 @import url(./blocks/profile/__add-button/profile__add-button.css);
 @import url(./blocks/profile/__edit-button/profile__edit-button.css);
@@ -79,3 +85,10 @@
 @import url(./blocks/result/result.css);
 @import url(./blocks/result/__image/result__image.css);
 @import url(./blocks/result/__text/result__text.css);
+
+@import url(./blocks/button/button.css);
+@import url(./blocks/button/__menu/button__menu.css);
+@import url(./blocks/button/__menu/_hidden/button__menu_hidden.css);
+@import url(./blocks/button/__menu/_left/button__menu_left.css);
+@import url(./blocks/button/__menu/_right/button__menu_right.css);
+
