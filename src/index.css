@@ -44,7 +44,6 @@
 @import url(./blocks/popup/__submit-button/popup__submit-button.css);
 @import url(./blocks/popup/__result/popup__result.css);
 
-
 @import url(./blocks/element/__like-button/_active/element__like-button_active.css);
 
 @import url(./blocks/element/__delete-button/element__delete-button.css);
@@ -91,4 +90,3 @@
 @import url(./blocks/button/__menu/_hidden/button__menu_hidden.css);
 @import url(./blocks/button/__menu/_left/button__menu_left.css);
 @import url(./blocks/button/__menu/_right/button__menu_right.css);
-

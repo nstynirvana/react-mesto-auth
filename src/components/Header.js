@@ -1,7 +1,6 @@
 import React from 'react';
 import headerLogo from '../images/header-logo.svg';
 import { Link, Route, Routes } from 'react-router-dom';
-import MenuButton from './MenuButton';
 
 function Header(props) {
 
@@ -31,7 +30,6 @@ function Header(props) {
                 <Routes>
 
                     <Route path='/'
-                        element={<MenuButton handleMenuClick={props.handleMenuClick} isMenuOpen={props.isMenuOpen} />}
                         element={
                             <div className='header__container header__container_type_profile-menu'>
                                 <p className='header__user'>{props.useremail}</p>
