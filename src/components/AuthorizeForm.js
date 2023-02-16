@@ -2,31 +2,31 @@ import React from "react";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function AuthorizeForm(props) {
-const [email, setEmail] = React.useState('');
-const [password, setPassword] = React.useState('');
-const currentUser = React.useContext(CurrentUserContext);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const currentUser = React.useContext(CurrentUserContext);
 
 
-const handleUserEmail = (e) => {
+  const handleUserEmail = (e) => {
     setEmail(e.target.value);
-};
+  };
 
-const handleUserPassword = (e) => {
+  const handleUserPassword = (e) => {
     setPassword(e.target.value);
-};
+  };
 
-React.useEffect(() => {
+  React.useEffect(() => {
     if (currentUser) {
-        setEmail(currentUser.email);
-        setPassword(currentUser.password);
+      setEmail(currentUser.email);
+      setPassword(currentUser.password);
     }
-}, [currentUser, props.isOpen]);
+  }, [currentUser, props.isOpen]);
 
-const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     props.onSubmit(email, password);
-}
-  
+  }
+
   return (
     <>
       <form className='form form_color_white' name='sign-in' onSubmit={handleSubmit} noValidate >
@@ -35,7 +35,7 @@ const handleSubmit = (e) => {
           <input className='form__item form__item_color_white' id='email' type='email' name='email' placeholder='Email' value={email || ''} onChange={handleUserEmail} required />
           <input className='form__item form__item_color_white' id='password' type='password' name='password' placeholder='Пароль' value={password || ''} onChange={handleUserPassword} required />
         </div>
-          <button className='form__button form__button_color_white' type='submit'>{props.textOfButton}</button>
+        <button className='form__button form__button_color_white' type='submit'>{props.textOfButton}</button>
       </form>
     </>
   )

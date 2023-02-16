@@ -207,31 +207,31 @@ function App() {
 
                 <Routes>
                     <Route path='/sign-up'
-                    element={
-                    <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />}>   
+                        element={
+                            <Register title='Регистрация' textOfButton='Зарегистрироваться' onRegister={handleRegisterSubmit} />}>
                     </Route>
 
                     <Route path='/sign-in'
-                    element={<Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit}/>}>  
+                        element={<Login title='Войти' textOfButton='Войти' onLogin={handleLoginSubmit} />}>
+                    </Route>
+
+                    <Route path='/'
+                        element={
+                            <ProtectedRoute
+                                isLoggedIn={isLoggedIn}
+                                element={Main}
+                                onEditAvatar={handleEditAvatarClick}
+                                onEditProfile={handleEditProfileClick}
+                                onAddPlace={handleAddPlaceClick}
+                                onCardClick={handleCardClick}
+                                cards={cards}
+                                onCardLike={handleCardLike}
+                                onBtnDelete={handleCardDelete}
+                            />}>
                     </Route>
                     
-                    <Route element={ <ProtectedRoute
-                    exact path='/'
-                    isLoggedIn={isLoggedIn}
-                    element={() =>
-                        <Main
-                            onEditAvatar={handleEditAvatarClick}
-                            onEditProfile={handleEditProfileClick}
-                            onAddPlace={handleAddPlaceClick}
-                            onCardClick={handleCardClick}
-                            cards={cards}
-                            onCardLike={handleCardLike}
-                            onBtnDelete={handleCardDelete}
-                        />}
-                />}>
-                    </Route>
                 </Routes>
-                
+
                 <Footer />
 
                 <InfoToolTip isOpen={isInfoToolTipOpen} onClose={closeAllPopups} isSuccess={isSuccess} />
@@ -246,7 +246,7 @@ function App() {
 
             </CurrentUserContext.Provider>
 
-        </div>
+        </div >
     );
 }
 
