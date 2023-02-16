@@ -112,6 +112,10 @@ function App() {
         setLoggedIn(true)
     }
 
+    function handleUserEmail(email) {
+        setEmail(email)
+      }
+
     function handleInfoTooltipClick() {
         setInfoToolTipOpen(true);
     }
@@ -178,6 +182,7 @@ function App() {
         auth.authorize(email, password)
             .then((data) => {
                 if (data.token) {
+                    handleUserEmail(email);
                     localStorage.setItem('token', data.token);//сохранили токен
                     handleLogin();//статус пользователя - зарегистрирован
                     navigate('/'); //переадресация на основную страницу
