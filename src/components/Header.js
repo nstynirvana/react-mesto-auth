@@ -27,7 +27,7 @@ function Header(props) {
                     <img src={headerLogo} alt="Логотип" />
                 </Link>
 
-{/* 
+
                 <Routes>
 
                     <Route path='/'>
@@ -51,7 +51,7 @@ function Header(props) {
                             <Link to='/sign-up' className='header__link-push link header__link-push_color_grey' onClick={signOut}>Регистрация</Link>
                         </div>
                     </Route>
-                </Routes> */}
+                </Routes>
             </header>
         </>
     );
