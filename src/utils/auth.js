@@ -6,14 +6,11 @@ class Api {
 
     //метод проверки результата запроса к серверу
     _checkResponse(res) {
-        try {
-            if (res.status === 200 || res.status === 201) {
-                return res.json();
-            }
-        } catch (error) {
-            return (error)
+        if (res.ok) {
+            return res.json();
         }
-    }
+        return Promise.reject(`Ошибка: ${res.status}`);
+    };
 
     //регистрация
     register(email, password) {
