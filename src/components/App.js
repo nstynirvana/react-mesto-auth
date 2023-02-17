@@ -8,7 +8,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import InfoToolTip from "./InfoTooltip";
@@ -100,6 +100,27 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  const isOpen =
+    isEditAvatarPopupOpen ||
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    isInfoToolTipOpen ||
+    selectedCard.link;
+
+  React.useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("keydown", closeByEscape);
+      return () => {
+        document.removeEventListener("keydown", closeByEscape);
+      };
+    }
+  }, [isOpen]);
+
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -110,6 +131,10 @@ function App() {
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
+  }
+
+  function handleInfoTooltipClick() {
+    setInfoToolTipOpen(true);
   }
 
   const handleCardClick = (card) => {
@@ -126,10 +151,6 @@ function App() {
 
   function handleUserEmail(email) {
     setEmail(email);
-  }
-
-  function handleInfoTooltipClick() {
-    setInfoToolTipOpen(true);
   }
 
   const handleUpdateUser = (info) => {
@@ -182,15 +203,14 @@ function App() {
       .register(email, password)
       .then((res) => {
         if (res) {
-          handleInfoTooltipClick(); //открытие модального окна
           setSuccess(true); //сообщение об успешной регистраци
           navigate("/sign-in");
-        } else {
-          handleInfoTooltipClick(); //открытие модального окна
-          setSuccess(false); //сообщение о проблеме при регистраци
         }
       })
-      .catch((err) => console.log(err));
+      .catch(() => setSuccess(false))
+      .finally(() => {
+        handleInfoTooltipClick();
+      });
   };
 
   function handleLoginSubmit(email, password) {
@@ -219,6 +239,7 @@ function App() {
         .getContent(token)
         .then((data) => data)
         .then((res) => {
+          handleUserEmail(res.data.email);
           handleLogin(); //обновлен статус пользователя - зарегистрирован
           navigate("/"); //переадресация на страницу пользователя
         })

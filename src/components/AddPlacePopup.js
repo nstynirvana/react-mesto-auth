@@ -1,21 +1,26 @@
 import React from "react";
-import { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
-  const titleRef = useRef();
-  const linkRef = useRef();
+  const [title, setTitle] = React.useState("");
+  const [link, setLink] = React.useState("");
+
+  const handleChangeTitle = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleChangeLink = (e) => {
+    setLink(e.target.value);
+  };
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
     props.onAddPlace({
-      name: titleRef.current.value,
-      link: linkRef.current.value,
+      name: title,
+      link: link,
     });
   }
-
-  React.useEffect(() => {}, [props.isOpen]);
 
   return (
     <PopupWithForm
@@ -27,7 +32,7 @@ function AddPlacePopup(props) {
       onSubmit={handleSubmit}
     >
       <input
-        ref={titleRef}
+        onChange={handleChangeTitle}
         type="text"
         className="popup__text popup__text_type_title"
         required
@@ -39,7 +44,7 @@ function AddPlacePopup(props) {
       />
       <span className="form__error image-subtitle-error"></span>
       <input
-        ref={linkRef}
+        onChange={handleChangeLink}
         type="url"
         className="popup__text popup__text_type_image"
         required
