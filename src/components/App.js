@@ -207,7 +207,10 @@ function App() {
           navigate("/sign-in");
         }
       })
-      .catch(() => setSuccess(false))
+      .catch(() => {
+        handleInfoTooltipClick();
+        setSuccess(false);
+      })
       .finally(() => {
         handleInfoTooltipClick();
       });
