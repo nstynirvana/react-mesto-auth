@@ -17,8 +17,6 @@ function EditAvatarPopup(props) {
     });
   };
 
-  React.useEffect(() => {}, [props.isOpen]);
-
   return (
     <PopupWithForm
       textOfButton="Сохранить"

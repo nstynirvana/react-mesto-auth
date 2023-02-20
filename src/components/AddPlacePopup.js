@@ -33,6 +33,7 @@ function AddPlacePopup(props) {
     >
       <input
         onChange={handleChangeTitle}
+        value={title}
         type="text"
         className="popup__text popup__text_type_title"
         required
@@ -45,6 +46,7 @@ function AddPlacePopup(props) {
       <span className="form__error image-subtitle-error"></span>
       <input
         onChange={handleChangeLink}
+        value={link}
         type="url"
         className="popup__text popup__text_type_image"
         required
